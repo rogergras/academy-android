@@ -2,7 +2,7 @@ package com.sea.academy.list;
 
 import android.content.Context;
 
-import com.sea.academy.list.base.MainExecutor;
+import com.sea.academy.list.base.treading.MainExecutor;
 import com.sea.academy.list.datasource.DataSource;
 import com.sea.academy.list.datasource.MockedDataSourceImpl;
 import com.sea.academy.list.login.LoginContract;
