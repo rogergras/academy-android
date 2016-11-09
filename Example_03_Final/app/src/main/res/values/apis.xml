@@ -1,0 +1,3 @@
+<resources>
+    <string name="starwars_base_url">http://swapi.co/api</string>
+</resources>

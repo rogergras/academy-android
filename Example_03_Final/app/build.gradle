@@ -1,0 +1,82 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "24.0.3"
+    defaultConfig {
+        applicationId "com.sea.academy.list"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+        mock {
+
+        }
+        prod {
+
+        }
+    }
+
+    // WARNING: Modify this filter by your own responsability.
+
+    // The idea is to remove all "buildVariants" that can be an issue.
+    // In this case we remove "mockRelease" to ensure not to release a mock version.
+    // Remove "prodDebug" can be a good option to ensure not to test production in debug mode.
+    // Remember proguard is not configured on "debug" mode on this project.
+    variantFilter { variant ->
+        if((variant.buildType.name.toLowerCase().contains('release') ||
+                variant.buildType.name.toLowerCase().contains('prod'))
+                &&
+                (variant.getFlavors().get(0).name.toLowerCase().contains('fake') ||
+                        variant.getFlavors().get(0).name.toLowerCase().contains('mock') ||
+                        variant.getFlavors().get(0).name.toLowerCase().contains('dummy') ||
+                        variant.getFlavors().get(0).name.toLowerCase().contains('simulate'))) {
+            variant.setIgnore(true);
+            logger.info("For security reasons it was excluded '" +
+                    variant.getFlavors().get(0).name + "-" +
+                    variant.buildType.name +
+                    "' from build variants.")
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:cardview-v7:25.0.0'
+    compile 'com.android.support:recyclerview-v7:25.0.0'
+
+    // JSON parser, another good library is "jackson"
+    // Gson is only used for parse files on mock
+    mockCompile 'com.google.code.gson:gson:2.8.0'
+
+    // REST library
+    // Help: https://zeroturnaround.com/rebellabs/getting-started-with-retrofit-2/
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+    // Http client
+    compile 'com.squareup.okhttp3:okhttp:3.3.0'
+
+    // View injection
+    // Help: http://jakewharton.github.io/butterknife/
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+
+    testCompile 'junit:junit:4.12'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+}

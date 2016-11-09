@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Example_03</string>
+    <string name="helloworld">Hello World!</string>
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="empty_arg">Empty %s</string>
+    <string name="welcome_arg">Welcome %s</string>
+    <string name="logged_arg">Logged as %s</string>
+    <string name="empty">Empty</string>
+    <string name="logout">Logout</string>
+</resources>
